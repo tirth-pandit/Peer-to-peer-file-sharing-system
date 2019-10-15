@@ -23,6 +23,7 @@ struct download
 	int start;
 	int size;
 	string file_name;
+	string des_path;
 };
 
 struct argument
@@ -145,6 +146,7 @@ void *threaded_download(void *args)
 	int start = dt->start;
 	int size = dt->size;
 	string file = dt->file_name;
+	string des_file = dt->des_path;
 
 	string data = file +","+ boost::lexical_cast<string>(start) + "," + boost::lexical_cast<string>(size) ;
 
@@ -168,7 +170,7 @@ void *threaded_download(void *args)
 
 	int n;
 
-	FILE *fp  =fopen("downloaded_file.txt","r+");
+	FILE *fp  =fopen(des_file.c_str(),"r+");
 
 	fseek(fp,start ,SEEK_SET);
 
@@ -240,7 +242,7 @@ void download_file(vector<string> result ,string comm,int sock)
 	struct download temp[data.size()];
 
 	ofstream out;
-	out.open("downloaded_file.txt");
+	out.open(des_path);
 
 	for(int i=0 ;i<=file_size ;i++)
 	{
@@ -255,6 +257,7 @@ void download_file(vector<string> result ,string comm,int sock)
 		temp[i].start = boost::lexical_cast<int>(data[i][1]);
 		temp[i].size = boost::lexical_cast<int>(data[i][2]);
 		temp[i].file_name = result[2];
+		temp[i].des_path = des_path;
 
 		pthread_create(&download_threads[i] ,NULL ,threaded_download ,(void *)&temp[i]);
 	}

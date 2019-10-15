@@ -589,7 +589,7 @@ main(int argc ,char **argv)
 	{
 		cin>>s;
 
-		if( s == "QUIT");
+		if( s.compare("QUIT") == 0 );
 		{
 			break;
 		}
