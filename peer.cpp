@@ -87,7 +87,7 @@ void *handler(void *socket_desc)
 		//cout<<buf<<endl;
 
 		send(sock,&buf,sizeof(buf),0);
-		cout<<buf;
+		//cout<<buf;
 		
 		csize = csize-n;
 	}
